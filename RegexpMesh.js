@@ -17,7 +17,8 @@
 
     });
     window['temp'] = 0; // init
-    
+	window.meshHat = {};
+	window.ignoreVal = {};
     // Cleanup function when the extension is unloaded
     ext._shutdown = function() {};
 
@@ -27,25 +28,27 @@
         return {status: 2, msg: 'Ready'};
     };
 	window.recv = {};
+	var who = Math.random().toString(36).slice(2);
     ext.broadcast = function(name, val) {
         if (name.length > 0){ // blank broadcasts break firebase - not nice.
-        window['sent-' + name] = Math.random(); // HUGE thanks to the folks at White Mountain Science for fixing the multiple broadcast bug! (lines 32-40)
-        fb.child('broadcasts/' + name).set({value:val}); //Change value of broadcast so other clients get an update
+			fb.child('broadcasts/' + name).set({value:val,who}); //Change value of broadcast so other clients get an update
         }
     };
     
    ext.mesh_hat = function(name) {
        fb.child('broadcasts/' + name).on('value', function(snap){
-		window['new-' + name] = snap.val().value;
 		window.recv[name] = snap.val().value;
-		
-	   }); // Make sure broadcasts are unique (don't activate twice)
-       if(window['last-' + name] != window['new-' + name] && window['new-' + name] != window['sent-' + name]){
-           window['last-' + name] = window['new-' + name];
-           return true;
-       } else {
-           return false;
-       }
+		window.meshHat[name] = snap.val();
+	   });
+	   if(meshHat[name].who === who) {
+		   delete meshHat[name];
+		   return false;
+	   }
+	   if(meshHat[name]) {
+		   delete meshHat[name];
+		   return true;
+	   } else return false;
+
    }
    ext.valOf = function(name){
 	   return window.recv[name];
