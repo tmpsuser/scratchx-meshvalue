@@ -16,6 +16,7 @@
         dataType:'script'
 
     });
+	
     window['temp'] = 0; // init
 	window.meshHat = {};
 	window.ignoreVal = {};
@@ -29,6 +30,7 @@
     };
 	window.recv = {};
 	var who = Math.random().toString(36).slice(2);
+	console.log("RMSH:",who);
     ext.broadcast = function(name, val) {
         if (name.length > 0){ // blank broadcasts break firebase - not nice.
 			fb.child('broadcasts/' + name).set({value:val,who}); //Change value of broadcast so other clients get an update
