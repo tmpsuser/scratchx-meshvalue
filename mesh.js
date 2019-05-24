@@ -70,7 +70,6 @@
 			[' ', 'Create new message with name %s', 'create_message'],
 			[' ', "Set key %s of message %s to %s", "msg_set_object"],
 			[" ", "Emit message %s", "emit_msg"],
-            [' ', 'mesh broadcast %s with value %s', 'broadcast'],
             ['h', 'when I receive mesh %s', 'mesh_hat']
         ],
         url: 'http://technoboy10.tk/mesh'
