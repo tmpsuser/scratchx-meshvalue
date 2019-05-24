@@ -31,7 +31,7 @@
 	window.recv = {};
 	window.msgForm = {};
 	var whoAmI = Math.random().toString(36).slice(2);
-	console.log("RMSH:",who);
+	console.log("RMSH:",whoAmI);
     ext.emit_msg = function(name) {
         if (name.length > 0 && name && msgForm[name]){ // blank broadcasts break firebase - not nice.
 			fb.child('broadcasts/' + name).set({who: whoAmI, data: msgForm[name]}); //Change value of broadcast so other clients get an update
