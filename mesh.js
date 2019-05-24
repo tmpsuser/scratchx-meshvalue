@@ -48,9 +48,11 @@
        fb.child('broadcasts/' + name).on('value', function(snap){
 		window.recv[name] = snap.val();
 		window.meshHat[name] = snap.val();
+		console.log("Snap!",name,snap.val());
 	   });
 	   if(meshHat[name].who === whoAmI) {
 		   delete meshHat[name];
+		   delete recv[name];
 		   return false;
 	   }
 	   if(meshHat[name]) {
